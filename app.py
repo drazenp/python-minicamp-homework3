@@ -35,16 +35,31 @@ def addfood():
         connection.close()
         return render_template('result.html', message = message)
     
-@app.route('/favorite', methods= {'POST'})
+@app.route('/favorite')
 def favorite():
     connection = sqlite3.connect('database.db')
     
     food = ''
     try:
-        name = request.form['name']
-        if name == "":
-            name = 'preska'
-            
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM foods WHERE name="preska"')
+        
+        food = cursor.fetchone()
+    except Exception as e:
+        print(str(e))
+    finally:
+        connection.close()
+        
+    return jsonify(food)
+
+@app.route('/search', methods= {'GET'})
+def search():
+    connection = sqlite3.connect('database.db')
+    
+    food = ''
+    try:
+        name = request.args['name']
+        
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM foods WHERE name=?', (name,))
         
