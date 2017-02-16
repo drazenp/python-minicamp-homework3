@@ -70,3 +70,20 @@ def search():
         connection.close()
         
     return jsonify(food)
+
+@app.route('/drop')
+def drop():
+    connection = sqlite3.connect('database.db')
+    
+    message = ''
+    try:
+        cursor = connection.cursor()
+        cursor.execute('DROP TABLE IF EXISTS foods')
+    except Exception as e:
+        print(str(e))
+        message = 'The foods table is not dropped.'
+    finally:
+        connection.close()
+        message = 'dropped'
+    return message
+        
