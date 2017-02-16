@@ -1,1 +1,2 @@
-"# python-minicamp-homework3" 
+# python-minicamp @ [LambdaSchool](https://lambdaschool.com/)
+Homework #3
